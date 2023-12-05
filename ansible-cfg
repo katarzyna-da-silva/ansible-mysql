@@ -1,0 +1,3 @@
+[defaults]
+inventory = ~/ansible-mysql/ansible/inventory/
+remote_user = root

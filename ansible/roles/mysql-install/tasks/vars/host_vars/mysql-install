@@ -1,0 +1,5 @@
+# vars.yml
+mysql_user:
+  name: "bob"
+  password: "123456"
+  state: "present"

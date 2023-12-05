@@ -1,0 +1,33 @@
+---
+- name: Install MySQL
+  become: yes
+  
+  vars_files:
+    - "ansible/roles/mysql-install/tasks/vars/host_vars/mysql-install"
+
+- name: mysql service
+    - name: install mysql package
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - mysql-server
+        - python3-pymysql
+        - percona-toolkit
+
+- name: create db in mysql 'eponges'
+  community.mysql.mysql_db:
+    name: eponges
+    state: present
+    login_unix_socket: /run/mysqld/mysqld.sock
+
+    - name: create user and add all grant 
+      community.mysql.mysql_user:
+        name: "{{ mysql_user.name }}"
+        password: "{{ mysql_user.password }}"
+        priv: "eponges.*:ALL,GRANT"
+        state: "{{ mysql_user.state }}"
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+# - name: print titi var
+#   ansible.builtin.debug:
+#     msg: "{{ titi }}"
